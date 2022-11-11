@@ -2,9 +2,6 @@ const mongoose = require('mongoose');
 const {Schema} = mongoose;
 
 const userSchema = new Schema({
-    id: {
-        type:String
-    },
     name: {
         type: String,
         trim:true,
@@ -19,7 +16,6 @@ const userSchema = new Schema({
     },
     gender: {
         type: String,
-        enum:['man','woman','undefined'],
     },
     address: {
         type: String

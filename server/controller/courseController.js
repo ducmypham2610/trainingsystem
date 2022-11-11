@@ -1,39 +1,34 @@
 const jwt = require("jsonwebtoken");
 const { v4: uuidv4 } = require('uuid');
-const User = require("../model/userModel");
+const Course = require("../model/courseModel");
 
-exports.addUser = async (req,res,next) => {
-    const {name,email,dob,gender,address,role} = req.body;
-    const id = uuidv4();
-    const data = {id,name,email,dob,gender,address,role};
-
-    // Insert into User values()
-    const user = await User.create(data);
+exports.addCourse = async (req,res,next) => {
+    const course = await Course.create(req.body);
     return res.status(201).json({
         status:"success",
-        user
+        course
     })
 }
 
-exports.updateUser = async(req,res,next) => {
-    const user = await User.findByIdAndUpdate(req.params.id,req.body,{
+exports.updateCourse = async(req,res,next) => {
+    const course = await Course.findByIdAndUpdate(req.params.id,req.body,{
         new: true,
       });
-    if(!user) {
-        console.log("no user");
+    if(!course) {
+        console.log("no course");
         return;
     }
-    console.log(user);
+    console.log(course);
     return res.status(200).json({
         status:"success",
-        user
+        course
     })
 }
 
-exports.deleteUser = async(req,res,next) => {
+exports.deleteCourse = async(req,res,next) => {
     const id = req.params.id;
-    const user = await User.findByIdAndDelete(id);
-    if(!user) {
+    const course = await Course.findByIdAndDelete(id);
+    if(!course) {
         return res.status(204).json({
             status:"No content",
         })
@@ -46,8 +41,8 @@ exports.deleteUser = async(req,res,next) => {
 
 exports.getById = async(req,res,next) => {
     const id = req.params.id;
-    const user = await User.findById(id);
-    if(!user) {
+    const course = await Course.findById(id);
+    if(!course) {
         return res.status(204).json({
             status:"No content",
         })
@@ -55,14 +50,14 @@ exports.getById = async(req,res,next) => {
 
     return res.status(200).json({
         status:"success",
-        user
+        course
     })
 }
 
 exports.getAll = async (req,res,next) => {
-    const users = await User.find({});
+    const courses = await Course.find({});
     return res.status(200).json({
         status:"success",
-        users
+        courses
     })
 }
