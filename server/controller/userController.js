@@ -53,14 +53,14 @@ exports.getById = async (req, res, next) => {
   });
 };
 
-exports.search = async (req, res, next) => {
-  const email = req.params.email;
-  const users = await User.findOne({email});
-  return res.status(200).json({
-    status: "success",
-    users,
-  });
-};
+// exports.search = async (req, res, next) => {
+//   const email = req.params.email;
+//   const users = await User.findOne({email});
+//   return res.status(200).json({
+//     status: "success",
+//     users,
+//   });
+// };
 
 exports.getAll = async (req, res, next) => {
   const users = await User.find({});
