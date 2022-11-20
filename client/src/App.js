@@ -12,7 +12,6 @@
 import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Billing from "./pages/Billing";
-import Login from "./pages/Login";
 import Rtl from "./pages/Rtl";
 import Profile from "./pages/Profile";
 import Courses from "./pages/Courses";
@@ -21,19 +20,20 @@ import Topics from "./pages/Topics";
 import "antd/dist/antd.css";
 import "./assets/styles/main.css";
 import "./assets/styles/responsive.css";
+import SignIn from "./pages/SignIn" 
+
 
 function App() {
   return (
     <div className="App">
       <Routes>
-        <Route path="/sign-in" element={<Login />} />
-        <Route path="/" element={<Login />} />
         <Route path="/home" element={<Home />} />
         <Route path="/users" element={<Home />} />
         <Route path="/courses" element={<Courses />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/categories" element={<Categories />} />
         <Route path="/topics" element={<Topics />} />
+        <Route path="/" element={<SignIn />} />
       </Routes>
     </div>
   );
