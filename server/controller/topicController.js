@@ -11,7 +11,7 @@ exports.add = async (req,res,next) => {
 }
 
 exports.update = async(req,res,next) => {
-    const topic = await Topic.findByIdAndUpdate(req.params.id,req.body,{
+    const topic = await Topic.findByIdAndUpdate(req.params.id, req.body,{
         new: true,
       });
     if(!topic) {
@@ -21,8 +21,8 @@ exports.update = async(req,res,next) => {
     console.log(topic);
     return res.status(200).json({
         status:"success",
-        topic
-    })
+        topic,
+    });
 }
 
 exports.delete = async(req,res,next) => {

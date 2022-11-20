@@ -11,7 +11,7 @@ exports.addCourse = async (req,res,next) => {
 }
 
 exports.updateCourse = async(req,res,next) => {
-    const course = await Course.findByIdAndUpdate(req.params.id,req.body,{
+    const course = await Course.findByIdAndUpdate(req.params.id, req.body,{
         new: true,
       });
     if(!course) {

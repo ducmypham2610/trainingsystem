@@ -1,0 +1,7 @@
+.search-add{
+    display: flex;
+    flex-direction: row;
+}
+.search{
+    margin-right: 90%;
+}

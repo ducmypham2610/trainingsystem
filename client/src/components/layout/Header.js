@@ -241,8 +241,8 @@ function Header({
   const { Title, Text } = Typography;
   const [user,setUser] = useState('');
   useEffect(() => {
-    const username = localStorage.getItem("Username");
-    if(username) setUser(username);
+    const name = localStorage.getItem("Name");
+    if(name) setUser(name);
   },[]);
   const [visible, setVisible] = useState(false);
   const [sidenavType, setSidenavType] = useState("transparent");

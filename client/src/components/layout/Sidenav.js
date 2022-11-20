@@ -15,6 +15,7 @@ import {useState, useEffect} from "react";
 import { Menu, Button } from "antd";
 import { NavLink, useLocation } from "react-router-dom";
 import logo from "../../assets/images/logo.jpg";
+import { useNavigate } from "react-router-dom";
 
 function Sidenav({ color }) {
   const { pathname } = useLocation();
@@ -140,13 +141,16 @@ function Sidenav({ color }) {
       ></path>
     </svg>,
   ];
-
+  let navigate = useNavigate();
   const [user, setUser] = useState("");
   useEffect(() => {
     const username = localStorage.getItem("Username");
     if (username) setUser(username);
   }, []);
-
+  const logout = () => {
+    localStorage.clear();
+    navigate("/login");
+  }
   return (
     <>
       <div className="brand">
@@ -181,6 +185,32 @@ function Sidenav({ color }) {
             <span className="label">Courses</span>
           </NavLink>
         </Menu.Item>
+        <Menu.Item key="3">
+          <NavLink to="/topics">
+            <span
+              className="icon"
+              style={{
+                background: page === "tables" ? color : "",
+              }}
+            >
+              {tables}
+            </span>
+            <span className="label">Topics</span>
+          </NavLink>
+        </Menu.Item>
+        <Menu.Item key="4">
+          <NavLink to="/categories">
+            <span
+              className="icon"
+              style={{
+                background: page === "tables" ? color : "",
+              }}
+            >
+              {tables}
+            </span>
+            <span className="label">Categories</span>
+          </NavLink>
+        </Menu.Item>
         <Menu.Item className="menu-item-header" key="5">
           Account Pages
         </Menu.Item>
@@ -199,14 +229,14 @@ function Sidenav({ color }) {
         </Menu.Item>
         {user ? (
           <Menu.Item key="7">
-            <NavLink to="/sign-in">
+            <NavLink to="/" onClick={logout}>
               <span className="icon">{signin}</span>
               <span className="label">Log out</span>
             </NavLink>
           </Menu.Item>
         ) : (
           <Menu.Item key="7">
-            <NavLink to="/sign-in">
+            <NavLink to="/">
               <span className="icon">{signin}</span>
               <span className="label">Sign In</span>
             </NavLink>
