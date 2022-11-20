@@ -40,6 +40,7 @@ exports.deleteUser = async (req, res, next) => {
 
 exports.getById = async (req, res, next) => {
   const id = req.params.id;
+  console.log(id);
   const user = await User.findById(id);
   if (!user) {
     return res.status(204).json({

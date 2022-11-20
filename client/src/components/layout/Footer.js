@@ -21,10 +21,9 @@ function Footer() {
       <Row className="just">
         <Col xs={24} md={12} lg={24}>
           <div className="copyright">
-            © 2022, made with
-            {<HeartFilled />} by
-            <a href="#pablo" className="font-weight-bold" target="_blank">
-              FPT
+            © 2022, From FPT with
+            <a href="https://www.facebook.com/mynameismy99" className="font-weight-bold" target="_blank">
+              Love {<HeartFilled />}
             </a>
           </div>
         </Col>

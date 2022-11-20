@@ -249,7 +249,7 @@ setIsModalOpen(false);
         <div className="layout-content">
           <Row gutter={[24, 0]}>
             <Col xs={24} xl={24} className="mb-24">
-              <Table columns={columns} dataSource={data} />
+              <Table pagination={{ pageSize: 8 }} columns={columns} dataSource={data} />
             </Col>
           </Row>
         </div>
