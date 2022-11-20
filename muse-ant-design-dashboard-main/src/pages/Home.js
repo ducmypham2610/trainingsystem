@@ -10,13 +10,27 @@
   * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 import { useState, useEffect } from "react";
-import { Table } from "antd";
+import { Popconfirm, Table } from "antd";
+import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import { Button, Form, Input, Modal, Typography, message } from "antd";
 import Main from "../components/layout/Main";
 import { Col, Row } from "antd";
-import { getAllUsers  } from "../services/userService";
+import { getAllUsers, deleteUser } from "../services/userService";
 
 function Home() {
   const role = localStorage.getItem("Role");
+  const [userId, setUserId] = useState(0);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
 
   const columns = [
     {
@@ -54,7 +68,7 @@ function Home() {
         {
           text: "trainee",
           value: "trainee",
-        }
+        },
       ],
       onFilter: (value, record) => record.role.indexOf(value) === 0,
     },
@@ -68,17 +82,55 @@ function Home() {
       dataIndex: "telephone",
       key: "telephone",
     },
+    {
+      title: "Action",
+      key: "key",
+      render: (_, record) => (
+        <>
+          <Button
+            style={{ marginRight: "16px", color: "blue" }}
+            onClick={() => {
+              showModal();
+              setUserId(record.id);
+            }}
+          >
+            <EditOutlined />
+          </Button>
+          <Popconfirm
+            title="Sure to delete?"
+            onConfirm={() => handleDelete(record._id)}
+          >
+            <Button style={{ color: "red" }}>
+              <DeleteOutlined />
+            </Button>
+          </Popconfirm>
+        </>
+      ),
+    },
   ];
   const [data, setData] = useState([]);
   useEffect(() => {
     getAllUsers()
       .then((res) => {
-        console.log(res.data.users);
         const newData = res.data.users;
-        setData(newData);
+        const account = newData.filter((item) => {
+          if (role === "admin") {
+            return item.role === "staff" || item.role === "admin";
+          }
+          if (role === "staff") {
+            return item.role === "trainer" || item.role === "trainee";
+          }
+        });
+        setData(account);
       })
       .catch((err) => console.log(err));
-  }, []);
+  }, [data]);
+
+  const handleDelete = (key) => {
+    deleteUser(key)
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+  };
 
   return (
     <>
