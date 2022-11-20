@@ -12,7 +12,7 @@
 import { useState, useEffect } from "react";
 import { Popconfirm, Table } from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
-import { Button, Form, Input, Modal, Typography, message } from "antd";
+import { Button} from "antd";
 import Main from "../components/layout/Main";
 import { Col, Row } from "antd";
 import { getAllUsers, deleteUser } from "../services/userService";
@@ -20,17 +20,6 @@ import { getAllUsers, deleteUser } from "../services/userService";
 function Home() {
   const role = localStorage.getItem("Role");
   const [userId, setUserId] = useState(0);
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
-  const handleOk = () => {
-    setIsModalOpen(false);
-  };
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
 
   const columns = [
     {
@@ -90,8 +79,8 @@ function Home() {
           <Button
             style={{ marginRight: "16px", color: "blue" }}
             onClick={() => {
-              showModal();
-              setUserId(record.id);
+              console.log(record._id)
+              setUserId(record._id);
             }}
           >
             <EditOutlined />
