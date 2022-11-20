@@ -2,12 +2,13 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { Popconfirm, Table } from "antd";
-import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
-import { Button, Form, Input, Modal, DatePicker, Select} from "antd";
+import { EditOutlined, DeleteOutlined, SearchOutlined } from "@ant-design/icons";
+import { Button, Form, Input, Modal, DatePicker, Select,} from "antd";
 import Main from "../components/layout/Main";
 import { Col, Row } from "antd";
 import { getAllUsers, deleteUser } from "../services/userService";
 import React from 'react';
+import "../assets/styles/Home.css"
 const layout = {
   labelCol: {
     span: 8,
@@ -31,23 +32,16 @@ const validateMessages = {
 
 function Home() {
 
-
-
   const role = localStorage.getItem("Role");
+  
   const [userId, setUserId] = useState(0);
   const [user, setUser] = useState([]);
   const getUser = async (id) => {
     const res = await axios.get("http://localhost:8000/user/"+id)
     setUser(res.data.user)
-    
-  console.log(user)
+    console.log(user)
   }
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
-
+  
   const columns = [
     {
       title: "Name",
@@ -63,6 +57,55 @@ function Home() {
       title: "Email",
       dataIndex: "email",
       key: "email",
+      
+      filterDropdown: ({
+        setSelectedKeys,
+        selectedKeys,
+        confirm,
+        clearFilters,
+      }) => {
+        return (
+          <>
+            <Input
+              autoFocus
+              placeholder="Search..."
+              value={selectedKeys[0]}
+              onChange={(e) => {
+                setSelectedKeys(e.target.value ? [e.target.value] : []);
+                confirm({ closeDropdown: false });
+              }}
+              onPressEnter={() => {
+                confirm();
+              }}
+              onBlur={() => {
+                confirm();
+              }}
+            ></Input>
+            <Button
+              onClick={() => {
+                confirm();
+              }}
+              type="primary"
+            >
+              Search
+            </Button>
+            <Button
+              onClick={() => {
+                clearFilters();
+              }}
+              type="danger"
+            >
+              Reset
+            </Button>
+          </>
+        );
+      },
+      filterIcon: () => {
+        return <SearchOutlined />;
+      },
+      onFilter: (value, record) => {
+        return record.email.toLowerCase().includes(value.toLowerCase());
+      },
     },
     {
       title: "Role",
@@ -108,8 +151,9 @@ function Home() {
             onClick={() => {
               console.log(record._id)
               setUserId(record._id);
-              showModal();
               getUser(record._id);
+              console.log(user);
+              showModal();
             }}
             // onClick={showModal}
           >
@@ -127,6 +171,19 @@ function Home() {
       ),
     },
   ];
+
+  
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+    setUser([]);
+  };
+
+
   const [data, setData] = useState([]);
   useEffect(() => {
     getAllUsers()
@@ -151,7 +208,7 @@ function Home() {
       .catch((err) => console.log(err));
   };
 
-  const onFinish = async (values) => {
+  const onFinishupdate = async (values) => {
     try {
       const response = await axios.put('http://localhost:8000/user/'+userId,{...values});
       if(response.status === 200) {
@@ -162,10 +219,33 @@ function Home() {
     } 
 console.log('Success:', values);
 setIsModalOpen(false);
-  }
+};
+
+const onFinishadduser = async (values) => {
+  try {
+    const response = await axios.post('http://localhost:8000/user',{...values});
+    console.log(response);
+  } catch(err) {
+    console.log(err);
+  } 
+console.log('Success:', values);
+setIsModalOpen(false);
+};
+
+
   return (
     <>
       <Main>
+        <div className="search-add">
+          <div className="search">
+          
+          </div>
+          <div className="add">
+            <Button onClick={showModal}>
+              Add
+            </Button>
+          </div>
+        </div>
         <div className="layout-content">
           <Row gutter={[24, 0]}>
             <Col xs={24} xl={24} className="mb-24">
@@ -175,8 +255,8 @@ setIsModalOpen(false);
         </div>
       </Main>
       {user.length !==0 && (
-      <Modal title="Basic Modal" open={isModalOpen}  footer={null}>
-        <Form {...layout} name="nest-messages" onFinish={onFinish} validateMessages={validateMessages} 
+      <Modal title="Update user" open={isModalOpen} onCancel={handleCancel} footer={null}>
+        <Form {...layout} name="nest-messages" onFinish={onFinishupdate} validateMessages={validateMessages} 
         initialValues={{
           name:user.name,
           username:user.username,
@@ -307,7 +387,130 @@ setIsModalOpen(false);
         </Form>
       </Modal>
       )}
+
+      Add
+      <Modal title="Add user" open={isModalOpen} onCancel={handleCancel} footer={null}>
+        <Form {...layout} name="nest-messages" onFinish={onFinishadduser} validateMessages={validateMessages} 
+        >
+          <Form.Item
+            name="name"
+            label="Name"
+
+            rules={[
+              {
+                required: true,
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name="username"
+            label="Username"
+            rules={[
+              {
+                type: 'username',
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name="email"
+            label="Email"
+            rules={[
+              {
+                type: 'email',
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          
+          <Form.Item
+            name="dob"
+            label="Date of birth"
+          >
+            <DatePicker />
+          </Form.Item>
+          <Form.Item
+            name="gender"
+            label="Gender"
+            rules={[
+              {
+                type: 'gender',
+              },
+            ]}
+          >
+            <Select>
+              <Select.Option value="male">Male</Select.Option>
+              <Select.Option value="female">Female</Select.Option>
+              <Select.Option value="other">Other</Select.Option>
+            </Select>
+          </Form.Item>
+          <Form.Item
+            name="address"
+            label="Address"
+            rules={[
+              {
+                type: 'address',
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name="role"
+            label="Role"
+            rules={[
+              {
+                type: 'role',
+              },
+            ]}
+          >
+            <Select>
+              <Select.Option value="admin">Admin</Select.Option>
+              <Select.Option value="staff">Staff</Select.Option>
+              <Select.Option value="trainer">Trainer</Select.Option>
+              <Select.Option value="trainee">Trainee</Select.Option>
+            </Select>
+          </Form.Item>
+          <Form.Item
+            name="password"
+            label="Password"
+            rules={[
+              {
+                type: 'text',
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name="telephone"
+            label="Telephone"
+            rules={[
+              {
+                type: 'text',
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            wrapperCol={{
+              ...layout.wrapperCol,
+              offset: 8,
+            }}
+          >
+            <Button type="primary" htmlType="submit">
+              Submit
+            </Button>
+          </Form.Item>
+        </Form>
+      </Modal>
     </>
+    
   );
 }
 

@@ -30,8 +30,8 @@ const validateMessages = {
 
 function Topics() {
   // const role = localStorage.getItem("Role");
-  const [topicsId, setTopicId] = useState(0);
-  const [topics, setTopic] = useState([]);
+  const [topicId, setTopicId] = useState(0);
+  const [topic, setTopic] = useState([]);
   const getTopic = async (id) => {
     const res = await axios.get("http://localhost:8000/topic/"+id)
     setTopic(res.data.topic)
@@ -113,7 +113,7 @@ function Topics() {
 
   const onFinish = async (values) => {
     try {
-      const response = await axios.put('http://localhost:8000/topic/'+topicsId,{...values});
+      const response = await axios.put('http://localhost:8000/topic/'+topicId,{...values});
       if(response.status === 200) {
         console.log('Update successfully');
       }
@@ -134,19 +134,18 @@ setIsModalOpen(false);
           </Row>
         </div>
       </Main>
-      {topics.length !==0 && (
+      {topic.length !==0 && (
       <Modal title="Basic Modal" open={isModalOpen} onCancel={handleCancel}  footer={null}>
       <Form {...layout} name="nest-messages" onFinish={onFinish} validateMessages={validateMessages} 
         initialValues={{
-          name:topics.name,
-          course:topics.course,
-          description:topics.description
+          name:topic.name,
+          course:topic.course,
+          description:topic.description
         }}
         >
           <Form.Item
             name="name"
             label="Name"
-
             rules={[
               {
                 required: true,
@@ -160,7 +159,7 @@ setIsModalOpen(false);
             label="Course"
             rules={[
               {
-                type: 'text',
+                required: true,
               },
             ]}
           >
