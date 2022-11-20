@@ -161,10 +161,8 @@ function Home() {
       console.log(err);
     } 
 console.log('Success:', values);
-
 setIsModalOpen(false);
-};
-
+  }
   return (
     <>
       <Main>
