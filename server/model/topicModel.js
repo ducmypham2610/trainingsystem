@@ -9,6 +9,10 @@ const topicSchema = new Schema({
         type: String,
         trim: true,
     },
+    course:{
+        type: String,
+        trim: true,
+    },
     description: {
         type: String,
         trim:true,
