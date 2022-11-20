@@ -40,6 +40,7 @@ exports.deleteUser = async (req, res, next) => {
 
 exports.getById = async (req, res, next) => {
   const id = req.params.id;
+  console.log(id);
   const user = await User.findById(id);
   if (!user) {
     return res.status(204).json({
@@ -50,15 +51,6 @@ exports.getById = async (req, res, next) => {
   return res.status(200).json({
     status: "success",
     user,
-  });
-};
-
-exports.search = async (req, res, next) => {
-  const email = req.params.email;
-  const users = await User.findOne({email});
-  return res.status(200).json({
-    status: "success",
-    users,
   });
 };
 

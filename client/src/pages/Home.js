@@ -16,10 +16,12 @@ import { Button} from "antd";
 import Main from "../components/layout/Main";
 import { Col, Row } from "antd";
 import { getAllUsers, deleteUser } from "../services/userService";
+import {useNavigate} from 'react-router-dom';
 
 function Home() {
   const role = localStorage.getItem("Role");
   const [userId, setUserId] = useState(0);
+  const navigate = useNavigate();
 
   const columns = [
     {
@@ -79,6 +81,7 @@ function Home() {
           <Button
             style={{ marginRight: "16px", color: "blue" }}
             onClick={() => {
+              navigate(`/users/edit/${record._id}`)
               console.log(record._id)
               setUserId(record._id);
             }}
