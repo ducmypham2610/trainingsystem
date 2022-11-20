@@ -22,7 +22,7 @@ import {
   Avatar,
   Typography,
 } from "antd";
-
+import Main from "../components/layout/Main";
 import { ToTopOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 
@@ -591,6 +591,7 @@ function Tables() {
 
   return (
     <>
+    <Main>
       <div className="tabled">
         <Row gutter={[24, 0]}>
           <Col xs="24" xl={24}>
@@ -654,6 +655,7 @@ function Tables() {
           </Col>
         </Row>
       </div>
+      </Main>
     </>
   );
 }

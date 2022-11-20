@@ -5,7 +5,10 @@ const userSchema = new Schema({
     name: {
         type: String,
         trim:true,
-        maxLength:[25,'Must be less than 20 characters'],
+    },
+    username: {
+        type: String,
+        trim:true,
     },
     email: {
         type: String,
@@ -21,6 +24,12 @@ const userSchema = new Schema({
         type: String
     },
     role: {
+        type: String
+    },
+    password: {
+        type: String
+    },
+    telephone: {
         type: String
     }
 });

@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 
 const userRoute = require('./route/userRoute');
 const courseRoute = require('./route/courseRoute');
+const categoryRoute = require('./route/categoryRoute');
 
 const app = express();
 app.use(cors());
@@ -20,4 +21,5 @@ app.use(
 // routes
 app.use('/user',userRoute);
 app.use('/course',courseRoute);
+app.use('/category',categoryRoute);
 module.exports = app;

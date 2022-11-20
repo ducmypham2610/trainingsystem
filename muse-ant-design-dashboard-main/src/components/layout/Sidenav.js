@@ -11,6 +11,7 @@
 */
 
 // import { useState } from "react";
+import {useState, useEffect} from "react";
 import { Menu, Button } from "antd";
 import { NavLink, useLocation } from "react-router-dom";
 import logo from "../../assets/images/logo.jpg";
@@ -140,36 +141,22 @@ function Sidenav({ color }) {
     </svg>,
   ];
 
-  const signup = [
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="14"
-      height="14"
-      viewBox="0 0 14 14"
-      key={0}
-    >
-      <path
-        d="M0,2A2,2,0,0,1,2,0H8a2,2,0,0,1,2,2V8a2,2,0,0,1-2,2H2A2,2,0,0,1,0,8Z"
-        transform="translate(4 4)"
-        fill={color}
-      />
-      <path
-        d="M2,0A2,2,0,0,0,0,2V8a2,2,0,0,0,2,2V4A2,2,0,0,1,4,2h6A2,2,0,0,0,8,0Z"
-        fill={color}
-      />
-    </svg>,
-  ];
+  const [user, setUser] = useState("");
+  useEffect(() => {
+    const username = localStorage.getItem("Username");
+    if (username) setUser(username);
+  }, []);
 
   return (
     <>
       <div className="brand">
         <img src={logo} alt="" />
-        <span>FPT Training System</span>
+        <span>FPT Training</span>
       </div>
       <hr />
       <Menu theme="light" mode="inline">
         <Menu.Item key="1">
-          <NavLink to="/dashboard">
+          <NavLink to="/users">
             <span
               className="icon"
               style={{
@@ -178,11 +165,11 @@ function Sidenav({ color }) {
             >
               {dashboard}
             </span>
-            <span className="label">Dashboard</span>
+            <span className="label">Users</span>
           </NavLink>
         </Menu.Item>
         <Menu.Item key="2">
-          <NavLink to="/tables">
+          <NavLink to="/courses">
             <span
               className="icon"
               style={{
@@ -192,32 +179,6 @@ function Sidenav({ color }) {
               {tables}
             </span>
             <span className="label">Courses</span>
-          </NavLink>
-        </Menu.Item>
-        <Menu.Item key="3">
-          <NavLink to="/billing">
-            <span
-              className="icon"
-              style={{
-                background: page === "billing" ? color : "",
-              }}
-            >
-              {billing}
-            </span>
-            <span className="label">Categories</span>
-          </NavLink>
-        </Menu.Item>
-        <Menu.Item key="4">
-          <NavLink to="/rtl">
-            <span
-              className="icon"
-              style={{
-                background: page === "rtl" ? color : "",
-              }}
-            >
-              {rtl}
-            </span>
-            <span className="label">RTL</span>
           </NavLink>
         </Menu.Item>
         <Menu.Item className="menu-item-header" key="5">
@@ -236,36 +197,22 @@ function Sidenav({ color }) {
             <span className="label">Profile</span>
           </NavLink>
         </Menu.Item>
-        <Menu.Item key="7">
-          <NavLink to="/sign-in">
-            <span className="icon">{signin}</span>
-            <span className="label">Sign In</span>
-          </NavLink>
-        </Menu.Item>
-        <Menu.Item key="8">
-          <NavLink to="/sign-up">
-            <span className="icon">{signup}</span>
-            <span className="label">Sign Up</span>
-          </NavLink>
-        </Menu.Item>
+        {user ? (
+          <Menu.Item key="7">
+            <NavLink to="/sign-in">
+              <span className="icon">{signin}</span>
+              <span className="label">Log out</span>
+            </NavLink>
+          </Menu.Item>
+        ) : (
+          <Menu.Item key="7">
+            <NavLink to="/sign-in">
+              <span className="icon">{signin}</span>
+              <span className="label">Sign In</span>
+            </NavLink>
+          </Menu.Item>
+        )}
       </Menu>
-      <div className="aside-footer">
-        <div
-          className="footer-box"
-          style={{
-            background: color,
-          }}
-        >
-          <span className="icon" style={{ color }}>
-            {dashboard}
-          </span>
-          <h6>Need Help?</h6>
-          <p>Please check our docs</p>
-          <Button type="primary" className="ant-btn-sm ant-btn-block">
-            DOCUMENTATION
-          </Button>
-        </div>
-      </div>
     </>
   );
 }

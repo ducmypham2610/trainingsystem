@@ -1,34 +1,34 @@
 const jwt = require("jsonwebtoken");
 const { v4: uuidv4 } = require('uuid');
-const Course = require("../model/courseModel");
+const Topic = require("../model/topicModel");
 
-exports.addCourse = async (req,res,next) => {
-    const course = await Course.create(req.body);
+exports.add = async (req,res,next) => {
+    const topic = await Topic.create(req.body);
     return res.status(201).json({
         status:"success",
-        course
+        topic
     })
 }
 
-exports.updateCourse = async(req,res,next) => {
-    const course = await Course.findByIdAndUpdate(req.params.id,req.body,{
+exports.update = async(req,res,next) => {
+    const topic = await Topic.findByIdAndUpdate(req.params.id,req.body,{
         new: true,
       });
-    if(!course) {
-        console.log("no course");
+    if(!topic) {
+        console.log("no Topic");
         return;
     }
-    console.log(course);
+    console.log(topic);
     return res.status(200).json({
         status:"success",
-        course
+        topic
     })
 }
 
-exports.deleteCourse = async(req,res,next) => {
+exports.delete = async(req,res,next) => {
     const id = req.params.id;
-    const course = await Course.findByIdAndDelete(id);
-    if(!course) {
+    const topic = await Topic.findByIdAndDelete(id);
+    if(!topic) {
         return res.status(204).json({
             status:"No content",
         })
@@ -41,8 +41,8 @@ exports.deleteCourse = async(req,res,next) => {
 
 exports.getById = async(req,res,next) => {
     const id = req.params.id;
-    const course = await Course.findById(id);
-    if(!course) {
+    const topic = await Topic.findById(id);
+    if(!topic) {
         return res.status(204).json({
             status:"No content",
         })
@@ -50,15 +50,14 @@ exports.getById = async(req,res,next) => {
 
     return res.status(200).json({
         status:"success",
-        course
+        topic
     })
 }
 
 exports.getAll = async (req,res,next) => {
-    const filter = {}
-    const courses = await Course.find(filter);
+    const topics = await Topic.find({});
     return res.status(200).json({
         status:"success",
-        courses
+        topics
     })
 }
