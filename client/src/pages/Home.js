@@ -31,23 +31,15 @@ const validateMessages = {
 
 function Home() {
 
-
-
   const role = localStorage.getItem("Role");
+  
   const [userId, setUserId] = useState(0);
   const [user, setUser] = useState([]);
   const getUser = async (id) => {
     const res = await axios.get("http://localhost:8000/user/"+id)
     setUser(res.data.user)
-    
-  console.log(user)
+    console.log(user)
   }
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
-
   const columns = [
     {
       title: "Name",
@@ -106,10 +98,11 @@ function Home() {
           <Button
             style={{ marginRight: "16px", color: "blue" }}
             onClick={() => {
+              showModal();
               console.log(record._id)
               setUserId(record._id);
-              showModal();
               getUser(record._id);
+              console.log(user);
             }}
             // onClick={showModal}
           >
@@ -127,6 +120,19 @@ function Home() {
       ),
     },
   ];
+
+  
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+    setUser([]);
+  };
+
+
   const [data, setData] = useState([]);
   useEffect(() => {
     getAllUsers()
@@ -164,7 +170,6 @@ console.log('Success:', values);
 
 setIsModalOpen(false);
 };
-
   return (
     <>
       <Main>
@@ -177,7 +182,7 @@ setIsModalOpen(false);
         </div>
       </Main>
       {user.length !==0 && (
-      <Modal title="Basic Modal" open={isModalOpen}  footer={null}>
+      <Modal title="Basic Modal" open={isModalOpen} onCancel={handleCancel} footer={null}>
         <Form {...layout} name="nest-messages" onFinish={onFinish} validateMessages={validateMessages} 
         initialValues={{
           name:user.name,
