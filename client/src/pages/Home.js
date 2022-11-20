@@ -15,7 +15,7 @@ import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { Button, Form, Input, Modal, Typography, message } from "antd";
 import Main from "../components/layout/Main";
 import { Col, Row } from "antd";
-import { getAllUsers } from "../services/userService";
+import { getAllUsers, deleteUser } from "../services/userService";
 import React from 'react';
 
 function Home() {
@@ -90,11 +90,11 @@ function Home() {
         <>
           <Button
             style={{ marginRight: "16px", color: "blue" }}
-              onClick={() => {
-                showModal();
-                setUserId(record.id);
-              }}
-            // onClick={showModal}
+            // onClick={() => {
+            //   console.log(record._id)
+            //   setUserId(record._id);
+            // }}
+            onClick={showModal}
           >
             <EditOutlined />
           </Button>
@@ -128,11 +128,11 @@ function Home() {
       .catch((err) => console.log(err));
   }, [data]);
 
-  // const handleDelete = (key) => {
-  //   deleteUser(key)
-  //     .then((res) => console.log(res))
-  //     .catch((err) => console.log(err));
-  // };
+  const handleDelete = (key) => {
+    deleteUser(key)
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+  };
 
   return (
     <>
@@ -145,7 +145,11 @@ function Home() {
           </Row>
         </div>
       </Main>
-
+      <Modal title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+        <p>Some contents...</p>
+        <p>Some contents...</p>
+        <p>Some contents...</p>
+      </Modal>
 
     </>
   );
