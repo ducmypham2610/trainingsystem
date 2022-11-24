@@ -119,20 +119,57 @@ function Categories() {
 console.log('Success:', values);
 setIsModalOpen(false);
   }
+
+  const onFinishupdate = async (values) => {
+    try {
+      const response = await axios.put('http://localhost:8000/category/'+categoriesId,{...values});
+      if(response.status === 200) {
+        console.log('Update successfully');
+        // setUser([]);
+      }
+    } catch(err) {
+      console.log(err);
+    } 
+console.log('Success:', values);
+setIsModalOpen(false);
+};
+
+const onFinishaddcate = async (values) => {
+  try {
+    const response = await axios.post('http://localhost:8000/category',{...values});
+    console.log(response);
+  } catch(err) {
+    console.log(err);
+  } 
+console.log('Success:', values);
+setIsModalOpen(false);
+};
+
   return (
     <>
       <Main>
+      <div className="search-add">
+          <div className="search">
+          
+          </div>
+          <div className="add">
+            <Button onClick={showModal}>
+              Add
+            </Button>
+          </div>
+        </div>
         <div className="layout-content">
           <Row gutter={[24, 0]}>
             <Col xs={24} xl={24} className="mb-24">
-              <Table columns={columns} dataSource={data} />
+              <Table pagination={{ pageSize: 8 }} columns={columns} dataSource={data} />
             </Col>
           </Row>
         </div>
       </Main>
       {categories.length !==0 && (
       <Modal title="Basic Modal" open={isModalOpen} onCancel={handleCancel}  footer={null}>
-      <Form {...layout} name="nest-messages" onFinish={onFinish} validateMessages={validateMessages} 
+
+      <Form {...layout} name="nest-messages" onFinish={onFinishupdate} validateMessages={validateMessages} 
         initialValues={{
           name:categories.name,
           description:categories.description
@@ -175,6 +212,52 @@ setIsModalOpen(false);
         </Form>
       </Modal>
       )}
+
+      Add
+      <Modal title="Basic Modal" open={isModalOpen} onCancel={handleCancel}  footer={null}>
+      <Form {...layout} name="nest-messages" onFinish={onFinishaddcate} validateMessages={validateMessages} 
+
+        initialValues={{
+          name:categories.name,
+          description:categories.description
+        }}
+        >
+          <Form.Item
+            name="name"
+            label="Name"
+
+            rules={[
+              {
+                required: true,
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name="description"
+            label="Description"
+            rules={[
+              {
+                type: 'text',
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          
+          <Form.Item
+            wrapperCol={{
+              ...layout.wrapperCol,
+              offset: 8,
+            }}
+          >
+            <Button type="primary" htmlType="submit">
+              Submit
+            </Button>
+          </Form.Item>
+        </Form>
+      </Modal>
     </>
   );
 }

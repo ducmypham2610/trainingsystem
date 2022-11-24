@@ -6,6 +6,8 @@ export const API_URL_GET_USER = 'http://localhost:8000/user'
 
 // COURSE URL
 export const API_URL_GET_COURSES = 'http://localhost:8000/course'
+export const API_URL_DELETE_COURSE = 'http://localhost:8000/course'
+export const API_URL_UPDATE_COURSE = 'http://localhost:8000/course'
 
 // TOPICS URL
 export const API_URL_GET_TOPICS = 'http://localhost:8000/topic'

@@ -213,6 +213,7 @@ function Home() {
       const response = await axios.put('http://localhost:8000/user/'+userId,{...values});
       if(response.status === 200) {
         console.log('Update successfully');
+        // setUser([]);
       }
     } catch(err) {
       console.log(err);
