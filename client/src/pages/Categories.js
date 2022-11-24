@@ -168,6 +168,7 @@ setIsModalOpen(false);
       </Main>
       {categories.length !==0 && (
       <Modal title="Basic Modal" open={isModalOpen} onCancel={handleCancel}  footer={null}>
+
       <Form {...layout} name="nest-messages" onFinish={onFinishupdate} validateMessages={validateMessages} 
         initialValues={{
           name:categories.name,
@@ -215,6 +216,7 @@ setIsModalOpen(false);
       Add
       <Modal title="Basic Modal" open={isModalOpen} onCancel={handleCancel}  footer={null}>
       <Form {...layout} name="nest-messages" onFinish={onFinishaddcate} validateMessages={validateMessages} 
+
         initialValues={{
           name:categories.name,
           description:categories.description
