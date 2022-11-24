@@ -15,7 +15,7 @@ const topicSchema = new Schema({
     },
     description: {
         type: String,
-        trim:true,
+        trim: true,
     }
 })
 
