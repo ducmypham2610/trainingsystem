@@ -1,4 +1,4 @@
-import "../assets/styles/SignIn.css"
+import "../assets/styles/SignIn.css";
 import React, { Component } from "react";
 import {
   Layout,
@@ -9,14 +9,14 @@ import {
   Form,
   Input,
   Switch,
+  Alert,
+  Space,
 } from "antd";
 import signinbg from "../assets/images/img-signin.jpg";
 
-import {useEffect} from 'react'
-import { useNavigate } from 'react-router-dom';
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
-
-
 
 function onChange(checked) {
   console.log(`switch to ${checked}`);
@@ -106,112 +106,135 @@ const signin = [
 function SignIn() {
   let navigate = useNavigate();
 
-    useEffect(() => {
+  useEffect(() => {
     const username = localStorage.getItem("Username");
-    if(username) {
+    if (username) {
       localStorage.clear();
     }
-    },[]);
+  }, []);
 
-    const onFinish = async (values) => {
-        const response = await axios.post('http://localhost:8000/user/login',values);
-        if(response.status === 200) {
-            console.log(response.data.user[0]);
-            localStorage.setItem("Username",response.data.user[0].username);
-            localStorage.setItem("Name",response.data.user[0].name);
-            localStorage.setItem("Role",response.data.user[0].role);
-            localStorage.setItem("Token",response.data.token);
-            navigate("/users");
-        }
-        console.log(response);
-      };
-      const onFinishFailed = (errorInfo) => {
-        console.log('Failed:', errorInfo);
-      };
-    return (
-      <>
-        <Layout className="layout-default layout-signin">
-          
-          <Content className="signin">
-            <Row gutter={[24, 0]} justify="space-around">
-              <Col
-                xs={{ span: 24, offset: 0 }}
-                lg={{ span: 6, offset: 2 }}
-                md={{ span: 12 }}
-              >
-                <Title className="mb-15">Sign In</Title>
-                <Title className="font-regular text-muted" level={5}>
-                  Enter your email and password to sign in
-                </Title>
-                <Form
-                  onFinish={onFinish}
-                  onFinishFailed={onFinishFailed}
-                  layout="vertical"
-                  className="row-col"
-                >
-                  <Form.Item
-                    className="username"
-                    label="Username"
-                    name="username"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please input your username!",
-                      },
-                    ]}
-                  >
-                    <Input placeholder="Username" />
-                  </Form.Item>
-
-                  <Form.Item
-                    className="username"
-                    label="Password"
-                    name="password"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please input your password!",
-                      },
-                    ]}
-                  >
-                    <Input.Password placeholder="Password" />
-                  </Form.Item>
-
-                  <Form.Item
-                    name="remember"
-                    className="aligin-center"
-                    valuePropName="checked"
-                  >
-                    <Switch defaultChecked onChange={onChange} />
-                    Remember me
-                  </Form.Item>
-
-                  <Form.Item>
-                    <Button
-                      type="primary"
-                      htmlType="submit"
-                      style={{ width: "100%" }}
-                    >
-                      SIGN IN
-                    </Button>
-                  </Form.Item>
-                  
-                </Form>
-              </Col>
-              <Col
-                className="sign-img"
-                style={{ padding: 12 }}
-                xs={{ span: 24 }}
-                lg={{ span: 12 }}
-                md={{ span: 12 }}
-              >
-                <img src={signinbg} alt="" />
-              </Col>
-            </Row>
-          </Content>
-          
-        </Layout>
-      </>
+  const onFinish = async (values) => {
+    const response = await axios.post(
+      "http://localhost:8000/user/login",
+      values
     );
+    console.log(response);
+    if (response.status === 204) {
+      return (
+        <>
+          <Space
+            direction="vertical"
+            style={{
+              width: "100%",
+            }}
+          >
+            <Alert
+              message="Error"
+              description="Incorrect username or password ! Please try again."
+              type="error"
+              showIcon
+            />
+          </Space>
+        </>
+      );
+    }
+    if (response.status === 200) {
+      localStorage.setItem("Username", response.data.user.username);
+      localStorage.setItem("Name", response.data.user.name);
+      localStorage.setItem("Role", response.data.user.role);
+      localStorage.setItem("Token", response.data.token);
+      const role = localStorage.getItem("Role");
+      if (role !== "trainee" && role !== "trainer") {
+        navigate("/users");
+      } else {
+        navigate("/profile");
+      }
+    }
+  };
+  const onFinishFailed = (errorInfo) => {
+    return <></>;
+  };
+  return (
+    <>
+      <Layout className="layout-default layout-signin">
+        <Content className="signin">
+          <Row gutter={[24, 0]} justify="space-around">
+            <Col
+              xs={{ span: 24, offset: 0 }}
+              lg={{ span: 6, offset: 2 }}
+              md={{ span: 12 }}
+            >
+              <Title className="mb-15">Sign In</Title>
+              <Title className="font-regular text-muted" level={5}>
+                Enter your email and password to sign in
+              </Title>
+              <Form
+                onFinish={onFinish}
+                onFinishFailed={onFinishFailed}
+                layout="vertical"
+                className="row-col"
+              >
+                <Form.Item
+                  className="username"
+                  label="Username"
+                  name="username"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input your username!",
+                    },
+                  ]}
+                >
+                  <Input placeholder="Username" />
+                </Form.Item>
+
+                <Form.Item
+                  className="username"
+                  label="Password"
+                  name="password"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input your password!",
+                    },
+                  ]}
+                >
+                  <Input.Password placeholder="Password" />
+                </Form.Item>
+
+                <Form.Item
+                  name="remember"
+                  className="aligin-center"
+                  valuePropName="checked"
+                >
+                  <Switch defaultChecked onChange={onChange} />
+                  Remember me
+                </Form.Item>
+
+                <Form.Item>
+                  <Button
+                    type="primary"
+                    htmlType="submit"
+                    style={{ width: "100%" }}
+                  >
+                    SIGN IN
+                  </Button>
+                </Form.Item>
+              </Form>
+            </Col>
+            <Col
+              className="sign-img"
+              style={{ padding: 12 }}
+              xs={{ span: 24 }}
+              lg={{ span: 12 }}
+              md={{ span: 12 }}
+            >
+              <img src={signinbg} alt="" />
+            </Col>
+          </Row>
+        </Content>
+      </Layout>
+    </>
+  );
 }
-export default SignIn
+export default SignIn;

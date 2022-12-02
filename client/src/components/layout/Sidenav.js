@@ -11,7 +11,7 @@
 */
 
 // import { useState } from "react";
-import {useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 import { Menu, Button } from "antd";
 import { NavLink, useLocation } from "react-router-dom";
 import logo from "../../assets/images/logo.jpg";
@@ -20,6 +20,7 @@ import { useNavigate } from "react-router-dom";
 function Sidenav({ color }) {
   const { pathname } = useLocation();
   const page = pathname.replace("/", "");
+  const role = localStorage.getItem("Role");
 
   const dashboard = [
     <svg
@@ -150,7 +151,7 @@ function Sidenav({ color }) {
   const logout = () => {
     localStorage.clear();
     navigate("/login");
-  }
+  };
   return (
     <>
       <div className="brand">
@@ -159,62 +160,63 @@ function Sidenav({ color }) {
       </div>
       <hr />
       <Menu theme="light" mode="inline">
-        <Menu.Item key="1">
-          <NavLink to="/users">
-            <span
-              className="icon"
-              style={{
-                background: page === "dashboard" ? color : "",
-              }}
-            >
-              {dashboard}
-            </span>
-            <span className="label">Users</span>
-          </NavLink>
-        </Menu.Item>
-        <Menu.Item key="2">
-          <NavLink to="/courses">
-            <span
-              className="icon"
-              style={{
-                background: page === "tables" ? color : "",
-              }}
-            >
-              {tables}
-            </span>
-            <span className="label">Courses</span>
-          </NavLink>
-        </Menu.Item>
-        <Menu.Item key="3">
-          <NavLink to="/topics">
-            <span
-              className="icon"
-              style={{
-                background: page === "tables" ? color : "",
-              }}
-            >
-              {tables}
-            </span>
-            <span className="label">Topics</span>
-          </NavLink>
-        </Menu.Item>
-        <Menu.Item key="4">
-          <NavLink to="/categories">
-            <span
-              className="icon"
-              style={{
-                background: page === "tables" ? color : "",
-              }}
-            >
-              {tables}
-            </span>
-            <span className="label">Categories</span>
-          </NavLink>
-        </Menu.Item>
-        <Menu.Item className="menu-item-header" key="5">
-          Account Pages
-        </Menu.Item>
-        <Menu.Item key="6">
+        {role !== "trainee" && (
+          <>
+            <Menu.Item key="1">
+              <NavLink to="/users">
+                <span
+                  className="icon"
+                  style={{
+                    background: page === "dashboard" ? color : "",
+                  }}
+                >
+                  {dashboard}
+                </span>
+                <span className="label">Users</span>
+              </NavLink>
+            </Menu.Item>
+            <Menu.Item key="2">
+              <NavLink to="/courses">
+                <span
+                  className="icon"
+                  style={{
+                    background: page === "tables" ? color : "",
+                  }}
+                >
+                  {tables}
+                </span>
+                <span className="label">Courses</span>
+              </NavLink>
+            </Menu.Item>
+            <Menu.Item key="3">
+              <NavLink to="/topics">
+                <span
+                  className="icon"
+                  style={{
+                    background: page === "tables" ? color : "",
+                  }}
+                >
+                  {tables}
+                </span>
+                <span className="label">Topics</span>
+              </NavLink>
+            </Menu.Item>
+            <Menu.Item key="4">
+              <NavLink to="/categories">
+                <span
+                  className="icon"
+                  style={{
+                    background: page === "tables" ? color : "",
+                  }}
+                >
+                  {tables}
+                </span>
+                <span className="label">Categories</span>
+              </NavLink>
+            </Menu.Item>
+          </>
+        )}
+        <Menu.Item key="5">
           <NavLink to="/profile">
             <span
               className="icon"
@@ -228,7 +230,7 @@ function Sidenav({ color }) {
           </NavLink>
         </Menu.Item>
         {user ? (
-          <Menu.Item key="7">
+          <Menu.Item key="6">
             <NavLink to="/" onClick={logout}>
               <span className="icon">{signin}</span>
               <span className="label">Log out</span>
