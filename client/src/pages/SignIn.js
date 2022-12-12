@@ -141,11 +141,12 @@ function SignIn() {
     if (response.status === 200) {
       localStorage.setItem("Username", response.data.user.username);
       localStorage.setItem("Name", response.data.user.name);
-      localStorage.setItem("Role", response.data.user.role);
+      localStorage.setItem("Role", response.data.user.role);      
+      localStorage.setItem("ID", response.data.user._id);
       localStorage.setItem("Token", response.data.token);
       const role = localStorage.getItem("Role");
       if (role !== "trainee" && role !== "trainer") {
-        navigate("/users");
+        navigate("/home");
       } else {
         navigate("/profile");
       }

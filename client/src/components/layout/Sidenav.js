@@ -150,7 +150,7 @@ function Sidenav({ color }) {
   }, []);
   const logout = () => {
     localStorage.clear();
-    navigate("/login");
+    navigate("/");
   };
   return (
     <>
@@ -160,7 +160,7 @@ function Sidenav({ color }) {
       </div>
       <hr />
       <Menu theme="light" mode="inline">
-        {role !== "trainee" && (
+        {role !== "trainee" && role !== "trainer" &&(
           <>
             <Menu.Item key="1">
               <NavLink to="/users">
@@ -216,6 +216,7 @@ function Sidenav({ color }) {
             </Menu.Item>
           </>
         )}
+        
         <Menu.Item key="5">
           <NavLink to="/profile">
             <span
@@ -238,7 +239,7 @@ function Sidenav({ color }) {
           </Menu.Item>
         ) : (
           <Menu.Item key="7">
-            <NavLink to="/">
+            <NavLink to="/login">
               <span className="icon">{signin}</span>
               <span className="label">Sign In</span>
             </NavLink>

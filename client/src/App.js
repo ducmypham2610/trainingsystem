@@ -21,6 +21,7 @@ import "antd/dist/antd.css";
 import "./assets/styles/main.css";
 import "./assets/styles/responsive.css";
 import SignIn from "./pages/SignIn" 
+import Users from "./pages/Users";
 
 
 function App() {
@@ -28,7 +29,7 @@ function App() {
     <div className="App">
       <Routes>
         <Route path="/home" element={<Home />} />
-        <Route path="/users" element={<Home />} />
+        <Route path="/users" element={<Users />} />
         <Route path="/courses" element={<Courses />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/categories" element={<Categories />} />
