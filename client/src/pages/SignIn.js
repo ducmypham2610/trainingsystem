@@ -127,6 +127,7 @@ function SignIn() {
         localStorage.setItem("Name", response.data.user.name);
         localStorage.setItem("Role", response.data.user.role);
         localStorage.setItem("Token", response.data.token);
+        localStorage.setItem("UserId",response.data.user._id)
         const role = localStorage.getItem("Role");
         if (role !== "trainee" && role !== "trainer") {
           navigate("/users");

@@ -163,6 +163,19 @@ function Sidenav({ color }) {
         {role !== "trainee" && (
           <>
             <Menu.Item key="1">
+              <NavLink to="/home">
+                <span
+                  className="icon"
+                  style={{
+                    background: page === "dashboard" ? color : "",
+                  }}
+                >
+                  {dashboard}
+                </span>
+                <span className="label">Home</span>
+              </NavLink>
+            </Menu.Item>
+            <Menu.Item key="2">
               <NavLink to="/users">
                 <span
                   className="icon"
@@ -175,7 +188,7 @@ function Sidenav({ color }) {
                 <span className="label">Users</span>
               </NavLink>
             </Menu.Item>
-            <Menu.Item key="2">
+            <Menu.Item key="3">
               <NavLink to="/courses">
                 <span
                   className="icon"
@@ -188,7 +201,7 @@ function Sidenav({ color }) {
                 <span className="label">Courses</span>
               </NavLink>
             </Menu.Item>
-            <Menu.Item key="3">
+            <Menu.Item key="4">
               <NavLink to="/topics">
                 <span
                   className="icon"
@@ -201,7 +214,7 @@ function Sidenav({ color }) {
                 <span className="label">Topics</span>
               </NavLink>
             </Menu.Item>
-            <Menu.Item key="4">
+            <Menu.Item key="5">
               <NavLink to="/categories">
                 <span
                   className="icon"
@@ -216,7 +229,7 @@ function Sidenav({ color }) {
             </Menu.Item>
           </>
         )}
-        <Menu.Item key="5">
+        <Menu.Item key="6">
           <NavLink to="/profile">
             <span
               className="icon"
@@ -230,7 +243,7 @@ function Sidenav({ color }) {
           </NavLink>
         </Menu.Item>
         {user ? (
-          <Menu.Item key="6">
+          <Menu.Item key="7">
             <NavLink to="/" onClick={logout}>
               <span className="icon">{signin}</span>
               <span className="label">Log out</span>

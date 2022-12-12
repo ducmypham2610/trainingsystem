@@ -36,6 +36,8 @@ const userSchema = new Schema({
   },
   courses: [{ type: Schema.Types.ObjectId, ref: "Course" }],
   topics:[{type:Schema.Types.ObjectId, ref:"Topic"}]
+},{
+  timestamps: true
 });
 
 userSchema.methods.comparePassword = function(_password) {

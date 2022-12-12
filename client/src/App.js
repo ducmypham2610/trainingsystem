@@ -11,12 +11,11 @@
 */
 import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
-import Billing from "./pages/Billing";
-import Rtl from "./pages/Rtl";
 import Profile from "./pages/Profile";
 import Courses from "./pages/Courses";
 import Categories from "./pages/Categories";
 import Topics from "./pages/Topics";
+import User from "./pages/Users";
 import "antd/dist/antd.css";
 import "./assets/styles/main.css";
 import "./assets/styles/responsive.css";
@@ -29,7 +28,7 @@ function App() {
     <div className="App">
       <Routes>
         <Route path="/home" element={<Home />} />
-        <Route path="/users" element={<Home />} />
+        <Route path="/users" element={<User />} />
         <Route path="/courses" element={<Courses />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/categories" element={<Categories />} />
