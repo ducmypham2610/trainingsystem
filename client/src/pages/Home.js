@@ -13,6 +13,7 @@ import { getAllUsers, deleteUser } from "../services/userService";
 import { getAllCourses } from "../services/courseService";
 import { getAllTopics } from "../services/topicsService";
 import React from "react";
+import { ToastContainer, toast } from "react-toastify";
 import "../assets/styles/Home.css";
 const layout = {
   labelCol: {
@@ -252,7 +253,7 @@ function Home() {
       });
       if (response.status === 200) {
         console.log("Update successfully");
-        // setUser([]);
+        setUser([]);
       }
     } catch (err) {
       console.log(err);
@@ -266,16 +267,31 @@ function Home() {
       const response = await axios.post("http://localhost:8000/user", {
         ...values,
       });
+      toast.success("User added successfully !");
     } catch (err) {
-      console.log(err);
+      if (err.response) {
+        console.log(err.response);
+        toast.error(err.response.data);
+      }
     }
-    console.log("Success:", values);
     setIsModalAddOpen(false);
   };
 
   return (
     <>
       <Main>
+        <ToastContainer
+          position="top-center"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
         <div className="search-add">
           <div className="search"></div>
           <div className="add">
@@ -316,7 +332,7 @@ function Home() {
               role: user.role,
               password: user.password,
               telephone: user.telephone,
-              courses: user.courses.name
+              courses: user.courses.name,
             }}
           >
             <Form.Item
@@ -339,7 +355,7 @@ function Home() {
                 },
               ]}
             >
-              <Input />
+              <Input disabled />
             </Form.Item>
             <Form.Item
               name="email"

@@ -2,10 +2,19 @@ const jwt = require("jsonwebtoken");
 const User = require("../model/userModel");
 
 exports.addUser = async (req, res, next) => {
-  const user = await User.create(req.body);
+  const {username, email} = req.body;
+
+  const usernameDuplicated = await User.findOne({username});
+  const emailDuplicated = await User.findOne({email});
+
+  if(usernameDuplicated || emailDuplicated) {
+    return res.status(404).send('Username or email is already taken ! Please try again.')
+  }
+
+  const newUser = await User.create(req.body);
   return res.status(201).json({
     status: "success",
-    user,
+    newUser,
   });
 };
 
@@ -77,17 +86,11 @@ exports.login = async (req, res, next) => {
   console.log(username,password);
   const user = await User.findOne({ username});
   if (!user) {
-    return res.status(204).json({
-      status: "UNAUTHORIZED",
-      message: "Invalid username or password ! Please try again.",
-    });
+    return res.status(404).send('Invalid username or password ! Please try again.')
   }
   const isCorrectPassword = await user.comparePassword(password);
   if(!isCorrectPassword) {
-    return res.status(204).json({
-      status: "UNAUTHORIZED",
-      message:"Invalid username or password ! Please try again.",
-    })
+    return res.status(404).send('Invalid username or password ! Please try again.')
   }
   const token = jwt.sign({ user }, username, {
     expiresIn: 60 * 24,

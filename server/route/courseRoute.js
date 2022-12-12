@@ -7,7 +7,7 @@ const router = express.Router();
 router.post('/',courseController.addCourse);
 router.put('/:id',courseController.updateCourse);
 router.delete('/:id',courseController.deleteCourse);
-router.get('/',courseController.getAll);
 router.get('/:id',courseController.getById);
+router.get('/',courseController.getAll);
 
 module.exports = router;

@@ -21,6 +21,7 @@ import "antd/dist/antd.css";
 import "./assets/styles/main.css";
 import "./assets/styles/responsive.css";
 import SignIn from "./pages/SignIn" 
+import "react-toastify/dist/ReactToastify.css";
 
 
 function App() {

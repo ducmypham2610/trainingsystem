@@ -17,6 +17,7 @@ import signinbg from "../assets/images/img-signin.jpg";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
 
 function onChange(checked) {
   console.log(`switch to ${checked}`);
@@ -114,40 +115,29 @@ function SignIn() {
   }, []);
 
   const onFinish = async (values) => {
-    const response = await axios.post(
-      "http://localhost:8000/user/login",
-      values
-    );
-    console.log(response);
-    if (response.status === 204) {
-      return (
-        <>
-          <Space
-            direction="vertical"
-            style={{
-              width: "100%",
-            }}
-          >
-            <Alert
-              message="Error"
-              description="Incorrect username or password ! Please try again."
-              type="error"
-              showIcon
-            />
-          </Space>
-        </>
+    try {
+      const response = await axios.post(
+        "http://localhost:8000/user/login",
+        values
       );
-    }
-    if (response.status === 200) {
-      localStorage.setItem("Username", response.data.user.username);
-      localStorage.setItem("Name", response.data.user.name);
-      localStorage.setItem("Role", response.data.user.role);
-      localStorage.setItem("Token", response.data.token);
-      const role = localStorage.getItem("Role");
-      if (role !== "trainee" && role !== "trainer") {
-        navigate("/users");
-      } else {
-        navigate("/profile");
+      console.log(response);
+      if (response.status === 200) {
+        toast.success("Login successfully !");
+        localStorage.setItem("Username", response.data.user.username);
+        localStorage.setItem("Name", response.data.user.name);
+        localStorage.setItem("Role", response.data.user.role);
+        localStorage.setItem("Token", response.data.token);
+        const role = localStorage.getItem("Role");
+        if (role !== "trainee" && role !== "trainer") {
+          navigate("/users");
+        } else {
+          navigate("/profile");
+        }
+      }
+    } catch (err) {
+      if (err.response) {
+        console.log(err.response);
+        toast.error(err.response.data);
       }
     }
   };
@@ -158,6 +148,18 @@ function SignIn() {
     <>
       <Layout className="layout-default layout-signin">
         <Content className="signin">
+          <ToastContainer
+            position="top-center"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+          />
           <Row gutter={[24, 0]} justify="space-around">
             <Col
               xs={{ span: 24, offset: 0 }}
