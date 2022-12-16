@@ -160,7 +160,7 @@ function Sidenav({ color }) {
       </div>
       <hr />
       <Menu theme="light" mode="inline">
-        {role !== "trainee" && (
+        {role !== "trainee" && role !== 'trainer' && (
           <>
             <Menu.Item key="1">
               <NavLink to="/home">

@@ -15,6 +15,7 @@ import {
 import Main from "../components/layout/Main";
 import { Col, Row } from "antd";
 import { getAllTopics, deleteTopic } from "../services/topicsService";
+import { getAllCourses } from "../services/courseService";
 import React from "react";
 
 const layout = {
@@ -41,6 +42,7 @@ function Topics() {
   // const role = localStorage.getItem("Role");
   const [topicId, setTopicId] = useState(0);
   const [topic, setTopic] = useState([]);
+  const [courses, setCourses] = useState([]);
   const getTopic = async (id) => {
     const res = await axios.get("http://localhost:8000/topic/" + id);
     setTopic(res.data.topic);
@@ -57,6 +59,20 @@ function Topics() {
     setIsModalOpen(false);
     setTopic([]);
   };
+
+  useEffect(() => {
+    getAllCourses()
+      .then((res) => {
+        const newData = res.data.courses.map((item) => {
+          return {
+            value: item._id,
+            label: item.name,
+          };
+        });
+        setCourses(newData);
+      })
+      .catch((err) => console.log(err));
+  }, []);
 
   const columns = [
     {
@@ -107,7 +123,14 @@ function Topics() {
     getAllTopics()
       .then((res) => {
         // console.log(res);
-        const newData = res.data.topics;
+        const newData = res.data.topics.map((item) => {
+          return {
+            _id: item._id,
+            name: item.name,
+            description: item.description,
+            course: item.course.name,
+          };
+        });
         setData(newData);
       })
       .catch((err) => console.log(err));
@@ -143,7 +166,7 @@ function Topics() {
       );
       if (response.status === 200) {
         console.log("Update successfully");
-        // setUser([]);
+        setTopic([]);
       }
     } catch (err) {
       console.log(err);
@@ -224,7 +247,18 @@ function Topics() {
                 },
               ]}
             >
-              <Input />
+              <Select
+                allowClear
+                showSearch
+                placeholder="Course"
+                optionFilterProp="children"
+                filterOption={(input, option) =>
+                  (option?.label ?? "")
+                    .toLowerCase()
+                    .includes(input.toLowerCase())
+                }
+                options={courses}
+              />
             </Form.Item>
             <Form.Item
               name="description"
@@ -289,7 +323,18 @@ function Topics() {
               },
             ]}
           >
-            <Input />
+            <Select
+              allowClear
+              showSearch
+              placeholder="Course"
+              optionFilterProp="children"
+              filterOption={(input, option) =>
+                (option?.label ?? "")
+                  .toLowerCase()
+                  .includes(input.toLowerCase())
+              }
+              options={courses}
+            />
           </Form.Item>
           <Form.Item
             name="description"

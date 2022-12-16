@@ -10,14 +10,19 @@ const topicSchema = new Schema({
         trim: true,
     },
     course:{
-        type: String,
-        trim: true,
+        type: Schema.Types.ObjectId,
+        ref:'Course'
     },
     description: {
         type: String,
         trim: true,
     }
 })
+
+topicSchema.pre(/^find/, function (next) {
+    this.populate({ path: "course", select: "name description" });
+    next();
+  });
 
 const Topic = mongoose.model('Topic', topicSchema);
 

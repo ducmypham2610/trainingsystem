@@ -351,7 +351,8 @@ function User() {
               label="Username"
               rules={[
                 {
-                  type: "username",
+                  required:true,
+                  type: 'text'
                 },
               ]}
             >
@@ -362,6 +363,7 @@ function User() {
               label="Email"
               rules={[
                 {
+                  required:true,
                   type: "email",
                 },
               ]}
@@ -377,7 +379,7 @@ function User() {
               label="Gender"
               rules={[
                 {
-                  type: "gender",
+                  required:true
                 },
               ]}
             >
@@ -392,7 +394,7 @@ function User() {
               label="Address"
               rules={[
                 {
-                  type: "address",
+                  type: "text",
                 },
               ]}
             >
@@ -403,7 +405,7 @@ function User() {
               label="Role"
               rules={[
                 {
-                  type: "role",
+                  type: "text",
                 },
               ]}
             >
@@ -425,7 +427,7 @@ function User() {
                   label="Course"
                   rules={[
                     {
-                      type: "role",
+                      required:true
                     },
                   ]}
                 >
