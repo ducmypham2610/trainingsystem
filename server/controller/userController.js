@@ -79,25 +79,3 @@ exports.getAll = async (req, res, next) => {
     users,
   });
 };
-
-
-exports.login = async (req, res, next) => {
-  const { username, password } = req.body;
-  console.log(username,password);
-  const user = await User.findOne({ username});
-  if (!user) {
-    return res.status(404).send('Invalid username or password ! Please try again.')
-  }
-  const isCorrectPassword = await user.comparePassword(password);
-  if(!isCorrectPassword) {
-    return res.status(404).send('Invalid username or password ! Please try again.')
-  }
-  const token = jwt.sign({ user }, username, {
-    expiresIn: 60 * 24,
-  });
-  return res.status(200).json({
-    status: "success",
-    token,
-    user,
-  });
-};

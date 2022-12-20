@@ -124,11 +124,13 @@ function Topics() {
       .then((res) => {
         // console.log(res);
         const newData = res.data.topics.map((item) => {
+          let course;
+          if(item.course.name) {course = item.course.name};
           return {
             _id: item._id,
             name: item.name,
             description: item.description,
-            course: item.course.name,
+            course
           };
         });
         setData(newData);
